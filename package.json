@@ -1,0 +1,36 @@
+{
+  "name": "pintra-fx-sample-app",
+  "sideEffects": false,
+  "version": "0.1.0",
+  "description": "This package contains a growing number of example apps for Pintra: a WordPress + Office 365 intranet that is built using the partially open-source Framework Pintra-Fx. This framework offers a runtime model across multiple technology layers, to help developers build client-side Office 365 productive intranet experiences and apps to meet the advanced requirements of today's modern workplace.",
+  "main": "dist/bundle.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wpo365/pintra-fx-examples.git"
+  },
+  "author": "marco@wpo365.com",
+  "license": "MIT",
+  "scripts": {
+    "build:webpack": "webpack",
+    "build:xcopy": "xcopy /s C:\\Projects\\WPO365\\pintra-fx-sample-app\\dist C:\\wamp\\www\\premium\\wp-content\\plugins\\wpo365-apps\\apps\\dist /Y",
+    "build": "npm run build:webpack && npm run build:xcopy"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "es6-promise": "^4.2.4",
+    "office-ui-fabric-react": "^6.101.0",
+    "pintra-fx": "^0.1.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
+    "@types/es6-promise": "^3.3.0",
+    "awesome-typescript-loader": "^5.2.0",
+    "source-map-loader": "^0.2.3",
+    "typescript": "^2.9.2",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.2"
+  }
+}
