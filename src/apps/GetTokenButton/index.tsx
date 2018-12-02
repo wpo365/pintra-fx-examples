@@ -1,13 +1,12 @@
 import React = require('react')
 import ReactDOM = require('react-dom')
 
-import { RecentDocuments } from './components/RecentDocuments'
-
 import { IReactDomConfig, AppLauncher } from 'pintra-fx'
+import { GetTokenButton } from './components/GetTokenButton'
 
 const reactDomConfig: IReactDomConfig = AppLauncher.getReactDomConfig()
 
 ReactDOM.render(
-  <RecentDocuments env={reactDomConfig.env} />,
+  <GetTokenButton env={reactDomConfig.env} />,
   document.getElementById(reactDomConfig.rootId),
 )

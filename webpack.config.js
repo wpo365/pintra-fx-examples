@@ -1,10 +1,11 @@
 module.exports = {
   entry: {
-    dist: './src/apps/RecentDocuments/index.tsx'
+    dist: './src/apps/RecentDocuments/index.tsx',
+    button: './src/apps/GetTokenButton/index.tsx',
   },
   output: {
     filename: '[name].js',
-    path: __dirname + '/dist'
+    path: __dirname + '/dist',
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -12,7 +13,7 @@ module.exports = {
 
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: ['.ts', '.tsx', '.js', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.json'],
   },
 
   module: {
@@ -25,15 +26,15 @@ module.exports = {
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-        loader: 'url-loader?limit=100000'
-      }
-    ]
+        loader: 'url-loader?limit=100000',
+      },
+    ],
   },
 
   externals: {
     react: 'React',
-    'react-dom': 'ReactDOM'
+    'react-dom': 'ReactDOM',
   },
 
-  mode: 'production'
-};
+  mode: 'production',
+}

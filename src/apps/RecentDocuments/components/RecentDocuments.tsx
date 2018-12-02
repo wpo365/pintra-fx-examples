@@ -4,8 +4,6 @@ import Axios from 'axios'
 
 import { TokenCache, TokenRequest, TokenRequestError, IToken } from 'pintra-fx'
 
-import { TextField } from 'office-ui-fabric-react/lib/TextField'
-
 import {
   DetailsList,
   DetailsListLayoutMode,
@@ -70,9 +68,8 @@ export class RecentDocuments extends React.Component<
       items: [],
     }
 
-    this.usingGraphToken(this.getRecentDocuments, (rejectedResponse: any) =>
-      console.error(rejectedResponse),
-    )
+    this.getRecentDocuments.bind(this)
+    this.getRecentDocuments()
   }
 
   public render(): React.ReactElement<IRecentDocumentsProps> {
@@ -102,60 +99,50 @@ export class RecentDocuments extends React.Component<
     window.open(item.url, '_blank')
   }
 
-  private getRecentDocuments = (
-    fullfilledResponse: IToken | TokenRequestError,
-  ) => {
-    // now get documents from graph
-    if ('bearer' in fullfilledResponse) {
-      Axios.get('https://graph.microsoft.com/beta/me/insights/used', {
-        headers: {
-          Accept: 'application/json',
-          ContentType: 'application/json; odata=verbose',
-          Authorization: `Bearer ${fullfilledResponse.bearer}`,
-        },
-      }).then(
-        (graphFullFilledResponse: any) => {
-          console.log(graphFullFilledResponse)
-          let items: IGraphItem[] = []
-          if (
-            graphFullFilledResponse.data &&
-            graphFullFilledResponse.data.value &&
-            Array.isArray(graphFullFilledResponse.data.value)
-          ) {
-            const graphData = [...graphFullFilledResponse.data.value]
-            for (let i = 0; i < graphData.length; i++) {
-              items.push({
-                key: i,
-                title: graphData[i].resourceVisualization.title,
-                type: graphData[i].resourceVisualization.type,
-                url: graphData[i].resourceReference.webUrl
-                  ? graphData[i].resourceReference.webUrl
-                  : graphData[i].resourceVisualization.containerWebUrl,
-              })
-            }
-            this.setState({ items })
-          }
-        },
-        (graphRejectedResponse: any) => {
-          console.error(graphRejectedResponse)
-        },
-      )
-    }
-  }
-
-  private usingGraphToken(
-    success: (fullfilledResponse: IToken | TokenRequestError) => void,
-    rejected: (error: any) => void,
-  ): void {
-    TokenCache.getToken(
+  private async getRecentDocuments() {
+    const tokenResponse = await TokenCache.getToken(
       new TokenRequest('graph', this.props.env.props.resourceId),
       {
         nonce: this.props.env.nonce,
         wpAjaxAdminUrl: this.props.env.wpAjaxAdminUrl,
       },
-    ).then(
-      fullfilledResponse => success(fullfilledResponse),
-      rejectedResponse => rejected(rejectedResponse),
     )
+
+    if (tokenResponse instanceof Error) {
+      return new Error('Unexpected: Could not retrieve a valid access token.')
+    }
+
+    const token = tokenResponse as IToken
+
+    const response = await Axios.get(
+      'https://graph.microsoft.com/beta/me/insights/used',
+      {
+        headers: {
+          Accept: 'application/json',
+          ContentType: 'application/json; odata=verbose',
+          Authorization: `Bearer ${token.bearer}`,
+        },
+      },
+    )
+
+    let items: IGraphItem[] = []
+    if (
+      response.data &&
+      response.data.value &&
+      Array.isArray(response.data.value)
+    ) {
+      const graphData = [...response.data.value]
+      for (let i = 0; i < graphData.length; i++) {
+        items.push({
+          key: i,
+          title: graphData[i].resourceVisualization.title,
+          type: graphData[i].resourceVisualization.type,
+          url: graphData[i].resourceReference.webUrl
+            ? graphData[i].resourceReference.webUrl
+            : graphData[i].resourceVisualization.containerWebUrl,
+        })
+      }
+      this.setState({ items })
+    }
   }
 }
