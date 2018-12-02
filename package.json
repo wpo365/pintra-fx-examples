@@ -19,7 +19,7 @@
     "axios": "^0.18.0",
     "es6-promise": "^4.2.4",
     "office-ui-fabric-react": "^6.101.0",
-    "pintra-fx": "^0.1.0",
+    "pintra-fx": "^0.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
