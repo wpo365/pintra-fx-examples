@@ -1,7 +1,7 @@
 {
   "name": "pintra-fx-sample-app",
   "sideEffects": false,
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "This package contains a growing number of example apps for Pintra: a WordPress + Office 365 intranet that is built using the partially open-source Framework Pintra-Fx. This framework offers a runtime model across multiple technology layers, to help developers build client-side Office 365 productive intranet experiences and apps to meet the advanced requirements of today's modern workplace.",
   "main": "dist/bundle.js",
   "repository": {
@@ -19,7 +19,7 @@
     "axios": "^0.18.0",
     "es6-promise": "^4.2.4",
     "office-ui-fabric-react": "^6.101.0",
-    "pintra-fx": "^0.1.0",
+    "pintra-fx": "^0.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
